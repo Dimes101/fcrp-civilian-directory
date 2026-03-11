@@ -55,7 +55,7 @@ nav{background:var(--white);border-bottom:3px solid var(--navy);position:sticky;
 .dropdown a:hover{background:var(--light);color:var(--navy3)}.dropdown a:last-child{border-bottom:none}
 
 .hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy3) 60%,#1a3a70 100%);position:relative;overflow:hidden;padding:3.5rem 2rem;text-align:center}
-.hero::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(255,255,255,0.03) 40px),repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(255,255,255,0.03) 40px)}
+.hero::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(255,255,255,0.03) 40px),repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(255,255,255,0.03) 40px);pointer-events:none}
 .hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--gold) 0%,var(--gold3) 50%,var(--gold) 100%)}
 .hero-badge{font-family:'Rajdhani',sans-serif;font-size:0.7rem;font-weight:600;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold3);margin-bottom:1rem;opacity:0.9}
 
