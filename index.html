@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>FCRP | Civilian Operations Directory</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f4f4f2;--white:#ffffff;--navy:#0d1f3c;--navy2:#152b52;--navy3:#1c3668;
+  --gold:#b8860b;--gold2:#d4a017;--gold3:#f0c040;--text:#1a1a2e;--muted:#5a6a7a;
+  --light:#e8edf4;--border:#d0d8e4;--red:#8b1a1a;--green:#1a5c2e;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Source Serif 4',Georgia,serif;background:var(--bg);color:var(--text);font-weight:300;line-height:1.7;min-height:100vh}
+
+.topbar{background:var(--navy);color:#aabbcc;font-family:'Rajdhani',sans-serif;font-size:0.7rem;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;padding:0.35rem 2rem;display:flex;justify-content:space-between;align-items:center}
+.topbar a{color:#aabbcc;text-decoration:none;transition:color 0.2s}.topbar a:hover{color:var(--gold3)}
+
+nav{background:var(--white);border-bottom:3px solid var(--navy);position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,0.1)}
+.nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:0;padding:0 1.5rem}
+.nav-logo{display:flex;align-items:center;gap:0.75rem;padding:0.7rem 1.5rem 0.7rem 0;border-right:1px solid var(--border);margin-right:0.5rem;cursor:pointer}
+.nav-logo-icon{width:38px;height:38px;background:var(--navy);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold3);font-size:1.1rem;flex-shrink:0}
+.nav-logo-text{font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;line-height:1.2;color:var(--navy);letter-spacing:0.05em}
+.nav-logo-text span{display:block;font-size:0.65rem;font-weight:500;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase}
+.nav-links{display:flex;align-items:center;gap:0}
+.nav-item{position:relative}
+.nav-link{font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--navy);padding:1.1rem 0.9rem;display:flex;align-items:center;gap:0.25rem;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-3px;transition:color 0.2s,border-color 0.2s;user-select:none;white-space:nowrap}
+.nav-link:hover,.nav-link.active{color:var(--navy3);border-bottom-color:var(--gold2)}
+.nav-link .caret{font-size:0.6rem;opacity:0.5}
+.dropdown{position:absolute;top:100%;left:0;background:var(--white);border:1px solid var(--border);border-top:2px solid var(--gold2);min-width:180px;box-shadow:0 4px 20px rgba(0,0,0,0.12);display:none;z-index:300}
+.nav-item:hover .dropdown{display:block}
+.dropdown a{display:block;font-family:'Rajdhani',sans-serif;font-size:0.75rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--navy);padding:0.65rem 1rem;cursor:pointer;text-decoration:none;border-bottom:1px solid var(--light);transition:background 0.15s,color 0.15s}
+.dropdown a:hover{background:var(--light);color:var(--navy3)}.dropdown a:last-child{border-bottom:none}
+
+.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy3) 60%,#1a3a70 100%);position:relative;overflow:hidden;padding:3.5rem 2rem;text-align:center}
+.hero::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(255,255,255,0.03) 40px),repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(255,255,255,0.03) 40px)}
+.hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--gold) 0%,var(--gold3) 50%,var(--gold) 100%)}
+.hero-badge{font-family:'Rajdhani',sans-serif;font-size:0.7rem;font-weight:600;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold3);margin-bottom:1rem;opacity:0.9}
+.hero-seal{width:80px;height:80px;background:radial-gradient(circle,rgba(255,255,255,0.08),transparent);border:2px solid rgba(212,160,23,0.5);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:2rem;color:var(--gold3);margin-bottom:1.25rem;box-shadow:0 0 40px rgba(212,160,23,0.2)}
+.hero h1{font-family:'Rajdhani',sans-serif;font-size:clamp(2rem,5vw,3.2rem);font-weight:700;color:#fff;letter-spacing:0.08em;text-transform:uppercase;line-height:1;margin-bottom:0.4rem}
+.hero h1 span{color:var(--gold3)}
+.hero-sub{font-family:'Source Serif 4',serif;font-style:italic;font-size:1rem;color:rgba(255,255,255,0.65);letter-spacing:0.05em}
+.hero-actions{margin-top:1.75rem;display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap}
+.home-hero-desc{max-width:600px;margin:1rem auto 0;font-size:0.88rem;color:rgba(255,255,255,0.6);font-style:italic}
+
+.btn{font-family:'Rajdhani',sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;padding:0.6rem 1.4rem;border:none;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:0.4rem;transition:all 0.2s}
+.btn-primary{background:var(--gold2);color:var(--navy)}.btn-primary:hover{background:var(--gold3)}
+.btn-outline{background:transparent;border:1px solid rgba(255,255,255,0.35);color:#fff}.btn-outline:hover{background:rgba(255,255,255,0.08)}
+.btn-sm{font-family:'Rajdhani',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.4rem 0.9rem;border:1px solid var(--border);background:var(--white);color:var(--navy);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:0.3rem;transition:all 0.15s}
+.btn-sm:hover{background:var(--navy);color:#fff;border-color:var(--navy)}
+.btn-navy{background:var(--navy);color:#fff;border:1px solid var(--navy)}.btn-navy:hover{background:var(--navy3)}
+
+.page{display:none;animation:fadeIn 0.3s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.container{max-width:1100px;margin:0 auto;padding:2.5rem 2rem 4rem}
+
+.section-label{font-family:'Rajdhani',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem}
+.section-title{font-family:'Rajdhani',sans-serif;font-size:1.6rem;font-weight:700;color:var(--navy);letter-spacing:0.05em;text-transform:uppercase;margin-bottom:0.2rem}
+.section-rule{width:60px;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold3));margin-bottom:1.5rem}
+.section-rule.wide{width:100%;height:1px;background:var(--border);margin:2rem 0}
+
+.card{background:var(--white);border:1px solid var(--border);padding:1.5rem}
+.card h3{font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;color:var(--navy);letter-spacing:0.05em;text-transform:uppercase;margin-bottom:0.5rem}
+.card p{font-size:0.88rem;color:var(--muted);line-height:1.65}
+.card-accent{border-top:3px solid var(--gold2)}.card-navy{border-top:3px solid var(--navy)}
+
+.staff-group-label{font-family:'Rajdhani',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.25em;text-transform:uppercase;color:var(--muted);margin:1.75rem 0 0.6rem;padding-bottom:0.4rem;border-bottom:1px solid var(--border)}
+.staff-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;margin-bottom:0.5rem}
+.staff-card{background:var(--white);border:1px solid var(--border);border-left:3px solid var(--gold2);padding:1rem 1.25rem;transition:box-shadow 0.2s,transform 0.2s}
+.staff-card:hover{box-shadow:0 4px 16px rgba(0,0,0,0.08);transform:translateY(-2px)}
+.staff-card.tier-admin{border-left-color:var(--gold)}.staff-card.tier-senior{border-left-color:var(--navy3)}.staff-card.tier-staff{border-left-color:#2a6a5f}
+.staff-rank{font-family:'Rajdhani',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin-bottom:0.15rem}
+.staff-name{font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:700;color:var(--navy);letter-spacing:0.03em}
+.staff-callsign{font-family:'Share Tech Mono',monospace;font-size:0.75rem;color:var(--gold);margin-top:0.1rem}
+.staff-vacant{color:var(--muted);font-style:italic;font-size:0.85rem}
+
+.tier-bar{display:flex;align-items:stretch;gap:0;margin-bottom:2rem;border:1px solid var(--border);overflow:hidden}
+.tier-seg{flex:1;padding:1rem;background:var(--white);border-right:1px solid var(--border);cursor:pointer;transition:background 0.2s;text-align:center}
+.tier-seg:last-child{border-right:none}
+.tier-seg:hover,.tier-seg.active{background:var(--navy)}
+.tier-seg .ts-num{font-family:'Rajdhani',sans-serif;font-size:1.4rem;font-weight:700;color:var(--gold2);line-height:1}
+.tier-seg .ts-label{font-family:'Rajdhani',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-top:0.15rem}
+.tier-seg:hover .ts-label,.tier-seg.active .ts-label{color:#aabbcc}.tier-seg:hover .ts-num,.tier-seg.active .ts-num{color:var(--gold3)}
+.tier-panel{display:none}.tier-panel.active{display:block}
+.tier-header{background:var(--navy);color:#fff;padding:1.25rem 1.5rem;display:flex;align-items:center;gap:1.25rem;margin-bottom:0}
+.tier-badge{font-family:'Rajdhani',sans-serif;font-size:2rem;font-weight:700;color:var(--gold3);flex-shrink:0}
+.tier-info-title{font-family:'Rajdhani',sans-serif;font-size:1.1rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase}
+.tier-info-sub{font-size:0.8rem;color:#aabbcc;font-style:italic}
+.tier-warning{background:#fff8e6;border:1px solid #e0c060;border-left:3px solid var(--gold);padding:0.7rem 1rem;font-size:0.8rem;color:#7a5a00;margin-bottom:1rem}
+.tier-warning strong{font-family:'Rajdhani',sans-serif;text-transform:uppercase;letter-spacing:0.1em}
+.tier-danger{background:#fef2f2;border:1px solid #f0c0c0;border-left:3px solid var(--red);padding:0.7rem 1rem;font-size:0.8rem;color:var(--red);margin-bottom:1rem}
+.tier-danger strong{font-family:'Rajdhani',sans-serif;text-transform:uppercase;letter-spacing:0.1em}
+.scenario-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:0.75rem}
+.scenario-item{background:var(--white);border:1px solid var(--border);padding:0.85rem 1rem;font-size:0.8rem;color:var(--text);display:flex;align-items:flex-start;gap:0.5rem}
+.scenario-item::before{content:'›';color:var(--gold);font-size:1rem;flex-shrink:0;line-height:1.4}
+.scenario-item em{display:block;font-size:0.7rem;color:var(--muted);font-style:normal;margin-top:0.15rem}
+
+.doc-list{display:flex;flex-direction:column;gap:0.6rem;margin-bottom:2rem}
+.doc-item{background:var(--white);border:1px solid var(--border);display:flex;align-items:center;gap:1rem;padding:0.9rem 1.25rem;text-decoration:none;transition:background 0.15s,border-color 0.15s}
+.doc-item:hover{background:var(--light);border-color:var(--gold2)}
+.doc-icon{width:38px;height:38px;background:var(--light);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.doc-title{font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:700;color:var(--navy);letter-spacing:0.04em;text-transform:uppercase}
+.doc-desc{font-size:0.75rem;color:var(--muted)}
+.doc-arrow{margin-left:auto;color:var(--muted);font-size:0.9rem;flex-shrink:0}
+.doc-item:hover .doc-arrow{color:var(--gold)}
+
+.rule-list{display:flex;flex-direction:column;gap:0;border:1px solid var(--border);margin-bottom:2rem}
+.rule-row{display:flex;gap:1rem;padding:0.9rem 1.25rem;background:var(--white);border-bottom:1px solid var(--light);transition:background 0.15s}
+.rule-row:last-child{border-bottom:none}.rule-row:hover{background:var(--light)}
+.rule-tag{font-family:'Rajdhani',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;white-space:nowrap;min-width:100px;color:var(--navy);padding-top:0.1rem}
+.rule-body p{font-size:0.82rem;color:var(--muted)}
+
+.alert{background:#fef2f2;border:1px solid #fcc;border-left:3px solid var(--red);padding:0.85rem 1.1rem;margin-bottom:1.25rem;font-size:0.82rem;color:#6b1a1a}
+.alert strong{font-family:'Rajdhani',sans-serif;font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;display:block;margin-bottom:0.2rem;color:var(--red)}
+.info-box{background:#f0f6ff;border:1px solid #c0d4f0;border-left:3px solid var(--navy3);padding:0.85rem 1.1rem;margin-bottom:1.25rem;font-size:0.82rem;color:#1a2b4a}
+.info-box strong{font-family:'Rajdhani',sans-serif;font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;display:block;margin-bottom:0.2rem;color:var(--navy3)}
+
+.disc-steps{display:flex;flex-direction:column;gap:0;border:1px solid var(--border);margin-bottom:2rem}
+.disc-step{display:flex;gap:1.25rem;align-items:flex-start;padding:1rem 1.25rem;background:var(--white);border-bottom:1px solid var(--light);transition:background 0.15s}
+.disc-step:last-child{border-bottom:none}.disc-step:hover{background:var(--light)}
+.disc-num{width:2rem;height:2rem;background:var(--navy);color:var(--gold3);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.disc-name{font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--navy)}
+.disc-desc{font-size:0.8rem;color:var(--muted);margin-top:0.1rem}
+
+.quick-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;margin-bottom:2.5rem}
+.quick-card{background:var(--white);border:1px solid var(--border);border-top:3px solid var(--navy);padding:1.25rem 1.25rem 1rem;cursor:pointer;text-align:center;transition:box-shadow 0.2s,transform 0.2s}
+.quick-card:hover{box-shadow:0 6px 20px rgba(0,0,0,0.1);transform:translateY(-3px);border-top-color:var(--gold)}
+.quick-card .qc-icon{font-size:1.75rem;margin-bottom:0.5rem}
+.quick-card .qc-title{font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--navy)}
+
+.news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem;margin-bottom:2.5rem}
+.news-card{background:var(--white);border:1px solid var(--border);overflow:hidden}
+.news-card-header{background:var(--navy);padding:0.75rem 1rem;font-family:'Rajdhani',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold3)}
+.news-card-body{padding:1rem;font-size:0.85rem;color:var(--muted)}
+
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.5rem}
+@media(max-width:640px){.two-col{grid-template-columns:1fr}}
+
+.steps-list{display:flex;flex-direction:column;gap:0;margin-bottom:2rem}
+.step-item{display:flex;gap:1.25rem;align-items:flex-start;padding:1.1rem 1.25rem;background:var(--white);border:1px solid var(--border);border-top:none}
+.step-item:first-child{border-top:1px solid var(--border)}
+.step-num{width:2.25rem;height:2.25rem;background:var(--gold2);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;display:flex;align-items:center;justify-content:center;color:var(--navy);flex-shrink:0}
+.step-title{font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--navy)}
+.step-desc{font-size:0.82rem;color:var(--muted);margin-top:0.2rem}
+
+.act-table{width:100%;border-collapse:collapse;background:var(--white);border:1px solid var(--border);margin-bottom:1.5rem}
+.act-table th{background:var(--navy);color:#fff;font-family:'Rajdhani',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;padding:0.7rem 1rem;text-align:left}
+.act-table td{padding:0.75rem 1rem;font-size:0.83rem;border-bottom:1px solid var(--light);color:var(--text)}
+.act-table tr:last-child td{border-bottom:none}.act-table tr:hover td{background:var(--light)}
+.act-table td:first-child{font-family:'Rajdhani',sans-serif;font-weight:700;color:var(--navy);letter-spacing:0.04em}
+
+footer{background:var(--navy);color:#aabbcc;padding:1.5rem 2rem;text-align:center}
+.footer-inner{max-width:1100px;margin:0 auto}
+.footer-top{font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold3);margin-bottom:0.35rem}
+.footer-text{font-size:0.75rem;color:rgba(170,187,204,0.7)}
+.footer-bar{margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,0.08);font-family:'Rajdhani',sans-serif;font-size:0.65rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:rgba(170,187,204,0.4)}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span>Florida Coast Roleplay &nbsp;·&nbsp; Civilian Operations</span>
+  <span>
+    <a href="https://discord.gg/pT7yawuZvk" target="_blank">Civilian Discord</a>
+    &nbsp;|&nbsp;
+    <a href="https://discord.gg/w33J6DXnpH" target="_blank">FCRP Main</a>
+  </span>
+</div>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo" onclick="showPage('home')">
+      <div class="nav-logo-icon">✦</div>
+      <div class="nav-logo-text">FCRP Civilian<span>Operations Directory</span></div>
+    </div>
+    <div class="nav-links">
+      <div class="nav-item"><div class="nav-link active" onclick="showPage('home')">Home</div></div>
+      <div class="nav-item"><div class="nav-link" onclick="showPage('about')">About Us</div></div>
+      <div class="nav-item"><div class="nav-link" onclick="showPage('staff')">Our Staff</div></div>
+      <div class="nav-item">
+        <div class="nav-link">Join Us <span class="caret">▾</span></div>
+        <div class="dropdown">
+          <a onclick="showPage('join')">Become a Civilian</a>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLScdyBZ8TEzdht660sM4lAEhG9l4dWnpztpLlVEq-5hvgkmKmg/viewform" target="_blank">Application Form ↗</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <div class="nav-link">Documents <span class="caret">▾</span></div>
+        <div class="dropdown">
+          <a onclick="showPage('docs-internal')">Internal Documents</a>
+          <a onclick="showPage('docs-public')">Public Documents</a>
+        </div>
+      </div>
+      <div class="nav-item"><div class="nav-link" onclick="showPage('contact-levels')">Contact Levels</div></div>
+      <div class="nav-item">
+        <div class="nav-link">Sub-Depts <span class="caret">▾</span></div>
+        <div class="dropdown">
+          <a onclick="showPage('judicial')">Judicial Services</a>
+          <a onclick="showPage('businesses')">Businesses &amp; Orgs</a>
+        </div>
+      </div>
+      <div class="nav-item"><div class="nav-link" onclick="showPage('conduct')">Conduct</div></div>
+    </div>
+  </div>
+</nav>
+
+<!-- HOME -->
+<div id="page-home" class="page active">
+  <div class="hero">
+    <div class="hero-badge">Florida Coast Roleplay</div>
+    <div class="hero-seal">✦</div>
+    <h1>Civilian <span>Operations</span></h1>
+    <div class="hero-sub">Realism · Innovation · Respect · Creativity</div>
+    <p class="home-hero-desc">The official directory for the FCRP Civilian Department. Your hub for SOPs, contact levels, staff listings, and all department resources.</p>
+    <div class="hero-actions">
+      <button class="btn btn-primary" onclick="showPage('join')">Join the Department</button>
+      <button class="btn btn-outline" onclick="showPage('docs-public')">View Documents</button>
+    </div>
+  </div>
+  <div class="container">
+    <div class="section-label">Quick Access</div>
+    <div class="section-title">Department Navigation</div>
+    <div class="section-rule"></div>
+    <div class="quick-grid">
+      <div class="quick-card" onclick="showPage('about')"><div class="qc-icon">📋</div><div class="qc-title">About Us</div></div>
+      <div class="quick-card" onclick="showPage('staff')"><div class="qc-icon">👥</div><div class="qc-title">Our Staff</div></div>
+      <div class="quick-card" onclick="showPage('join')"><div class="qc-icon">📝</div><div class="qc-title">Join Us</div></div>
+      <div class="quick-card" onclick="showPage('docs-public')"><div class="qc-icon">📂</div><div class="qc-title">Documents</div></div>
+      <div class="quick-card" onclick="showPage('contact-levels')"><div class="qc-icon">🎯</div><div class="qc-title">Contact Levels</div></div>
+      <div class="quick-card" onclick="showPage('conduct')"><div class="qc-icon">⚖️</div><div class="qc-title">Conduct</div></div>
+    </div>
+    <div class="section-rule wide"></div>
+    <div class="section-label">Department Updates</div>
+    <div class="section-title">Recent News</div>
+    <div class="section-rule"></div>
+    <div class="news-grid">
+      <div class="news-card">
+        <div class="news-card-header">SOP Update · Dec 2025</div>
+        <div class="news-card-body">SOP Version 1.6 has been released. All members are required to review the updated procedures. Contact CoC with any questions.</div>
+      </div>
+      <div class="news-card">
+        <div class="news-card-header">Callsign Policy Reminder</div>
+        <div class="news-card-body">All members must display their callsign on all platforms at all times: <strong>First L. Civ-###</strong></div>
+      </div>
+      <div class="news-card">
+        <div class="news-card-header">Leadership Update</div>
+        <div class="news-card-body">Mia C. serves as Civilian Director. The Deputy Director position is currently vacant. Reach out via Discord for CoC inquiries.</div>
+      </div>
+    </div>
+    <div class="info-box"><strong>Complaint & Information Requests</strong>Members of the public may submit complaint reports using the Civilian Complaint Form linked below.</div>
+    <a class="btn-sm btn-navy" href="https://forms.gle/VcrGbsS7xnLenSTSA" target="_blank">🚨 Submit a Complaint →</a>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div id="page-about" class="page">
+  <div class="hero" style="padding:2.5rem 2rem">
+    <div class="hero-badge">About Us</div>
+    <h1 style="font-size:2rem">About <span>Us</span></h1>
+    <div class="hero-sub">Who We Are</div>
+  </div>
+  <div class="container">
+    <div class="section-label">Welcome</div>
+    <div class="section-title">From the Civilian Director</div>
+    <div class="section-rule"></div>
+    <div class="card card-accent" style="margin-bottom:1.5rem">
+      <p style="font-size:0.9rem;margin-bottom:1rem">As the Civilian Director, and on behalf of our entire leadership team, I want to personally thank you for taking the time to review this document. Your dedication to understanding and following these procedures is essential to the success of the Civilian Department and our community at Florida Coast Roleplay.</p>
+      <p style="font-size:0.9rem;margin-bottom:1rem">As a member of the department, we ask that you familiarize yourself with the SOP and adhere to its guidelines at all times. The SOP may be updated periodically — every member is responsible for staying informed. If you have questions, please reach out to the Civilian Chain of Command.</p>
+      <p style="font-size:0.85rem;color:var(--gold);font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:0.1em;text-transform:uppercase">— Mia C. &nbsp;·&nbsp; Civilian Director &nbsp;·&nbsp; Civ-01</p>
+    </div>
+    <div class="two-col">
+      <div class="card card-navy">
+        <h3>Mission Statement</h3>
+        <p>To provide high-quality, realistic, and enjoyable civilian roleplay experiences for all emergency services personnel and civilians — fostering a welcoming, professional, and fun environment for all members of Florida Coast Roleplay.</p>
+      </div>
+      <div class="card card-accent">
+        <h3>Core Values</h3>
+        <div style="display:flex;flex-direction:column;gap:0.6rem;margin-top:0.5rem">
+          <div style="font-size:0.85rem"><strong style="font-family:'Rajdhani',sans-serif;color:var(--navy);letter-spacing:0.05em">REALISM</strong> <span style="color:var(--muted)">— Most realistic RP experiences possible.</span></div>
+          <div style="font-size:0.85rem"><strong style="font-family:'Rajdhani',sans-serif;color:var(--navy);letter-spacing:0.05em">INNOVATION</strong> <span style="color:var(--muted)">— Always improving daily operations.</span></div>
+          <div style="font-size:0.85rem"><strong style="font-family:'Rajdhani',sans-serif;color:var(--navy);letter-spacing:0.05em">RESPECT</strong> <span style="color:var(--muted)">— Toward peers and the chain of command.</span></div>
+          <div style="font-size:0.85rem"><strong style="font-family:'Rajdhani',sans-serif;color:var(--navy);letter-spacing:0.05em">CREATIVITY</strong> <span style="color:var(--muted)">— Open minds and diverse approaches welcome.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STAFF -->
+<div id="page-staff" class="page">
+  <div class="hero" style="padding:2.5rem 2rem">
+    <div class="hero-badge">Chain of Command</div>
+    <h1 style="font-size:2rem">Our <span>Staff</span></h1>
+    <div class="hero-sub">Department Leadership Structure</div>
+  </div>
+  <div class="container">
+    <div class="section-label">Leadership</div>
+    <div class="section-title">Civilian Administration</div>
+    <div class="section-rule"></div>
+    <div class="staff-group-label" style="margin-top:0">Administration</div>
+    <div class="staff-grid">
+      <div class="staff-card tier-admin"><div class="staff-rank">Civilian Director</div><div class="staff-name">Mia C.</div><div class="staff-callsign">Civ-01</div></div>
+      <div class="staff-card tier-admin"><div class="staff-rank">Civilian Deputy Director</div><div class="staff-name staff-vacant">Vacant</div></div>
+      <div class="staff-card tier-admin"><div class="staff-rank">Civilian Assistant Director</div><div class="staff-name">Niko K.</div><div class="staff-callsign">Civ-03</div></div>
+    </div>
+    <div class="staff-group-label">Senior Staff</div>
+    <div class="staff-grid">
+      <div class="staff-card tier-senior"><div class="staff-rank">Civilian Secretary</div><div class="staff-name staff-vacant">See Roster</div></div>
+      <div class="staff-card tier-senior"><div class="staff-rank">Civilian Asst. Secretary</div><div class="staff-name staff-vacant">See Roster</div></div>
+    </div>
+    <div class="staff-group-label">Staff</div>
+    <div class="staff-grid">
+      <div class="staff-card tier-staff"><div class="staff-rank">Civilian Manager</div><div class="staff-name staff-vacant">See Roster</div></div>
+      <div class="staff-card tier-staff"><div class="staff-rank">Civilian Supervisor</div><div class="staff-name staff-vacant">See Roster</div></div>
+      <div class="staff-card tier-staff"><div class="staff-rank">Civilian Advisor</div><div class="staff-name staff-vacant">See Roster</div></div>
+      <div class="staff-card tier-staff"><div class="staff-rank">Civilian Advisor In Training</div><div class="staff-name staff-vacant">See Roster</div></div>
+    </div>
+    <div style="margin-top:2rem;display:flex;gap:0.75rem;flex-wrap:wrap">
+      <a class="btn-sm btn-navy" href="https://docs.google.com/spreadsheets/d/1OFMeUA8VkjN-s9VP_YgIlvin4n4IaUnCsa-zDuCSxtU/edit" target="_blank">📋 Full Roster Sheet →</a>
+      <a class="btn-sm" href="https://discord.gg/pT7yawuZvk" target="_blank">💬 Contact via Discord →</a>
+    </div>
+  </div>
+</div>
+
+<!-- JOIN -->
+<div id="page-join" class="page">
+  <div class="hero" style="padding:2.5rem 2rem">
+    <div class="hero-badge">Join Us</div>
+    <h1 style="font-size:2rem">Become a <span>Civilian</span></h1>
+    <div class="hero-sub">Training Process &amp; Requirements</div>
+  </div>
+  <div class="container">
+    <div class="section-label">Getting Started</div>
+    <div class="section-title">Training Process</div>
+    <div class="section-rule"></div>
+    <div class="steps-list">
+      <div class="step-item"><div class="step-num">1</div><div><div class="step-title">Complete the Examination</div><div class="step-desc">Go to <strong>#examination-submissions</strong> in the Civilian Discord. Check the pinned message and open the official FCRP Examination form. The exam is open-book. Submit and wait to be contacted about your results.</div></div></div>
+      <div class="step-item"><div class="step-num">2</div><div><div class="step-title">Complete CAD &amp; TeamSpeak Setup</div><div class="step-desc">Go to <strong>#cad-setup-submissions</strong>. Read the pinned message, complete all steps (TeamSpeak first), then submit the form. Wait to be contacted by the Civilian Staff Team.</div></div></div>
+      <div class="step-item"><div class="step-num">3</div><div><div class="step-title">Begin Patrolling as Probationary Civilian</div><div class="step-desc">Once onboarded you start as a Probationary Civilian with Level 1 Contact. Log all patrols within 48 hours. Full-time: 10 hrs/cycle. Reserve: 2 hrs/cycle.</div></div></div>
+      <div class="step-item"><div class="step-num">4</div><div><div class="step-title">Work Towards Promotion</div><div class="step-desc">Promotions are based on activity, performance, and professionalism. Senior Civilians may apply for the Chain of Command. Review the Activity &amp; Promotion Guidelines for full criteria.</div></div></div>
+    </div>
+    <div class="info-box"><strong>Transfer Policy</strong>Full-time civilians are eligible for transfer after 10 days and 10 hours logged in-server, with good standing with CoC. Returning members do not bypass this requirement.</div>
+    <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-bottom:2rem">
+      <a class="btn btn-primary" href="https://docs.google.com/forms/d/e/1FAIpQLScdyBZ8TEzdht660sM4lAEhG9l4dWnpztpLlVEq-5hvgkmKmg/viewform" target="_blank">📝 Apply Now →</a>
+      <a class="btn-sm" href="https://docs.google.com/document/d/1o8f9o3Fn4IGqWVNx4-rfplzoIfDPkL9E95T4FRvH5I0/edit" target="_blank">📈 Activity &amp; Promo Guidelines →</a>
+      <a class="btn-sm" href="https://discord.gg/pT7yawuZvk" target="_blank">💬 Join Discord →</a>
+    </div>
+    <div class="section-rule wide"></div>
+    <div class="section-label">Activity Requirements</div>
+    <div class="section-title">Hours Per Cycle</div>
+    <div class="section-rule"></div>
+    <table class="act-table">
+      <thead><tr><th>Member Type</th><th>Required Hours</th><th>Patrol Log Deadline</th></tr></thead>
+      <tbody>
+        <tr><td>Full-Time Civilian</td><td>10 hours / cycle</td><td>Within 48 hours of patrol end</td></tr>
+        <tr><td>Reserve Civilian</td><td>2 hours / cycle</td><td>Within 48 hours of patrol end</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- DOCS INTERNAL -->
+<div id="page-docs-internal" class="page">
+  <div class="hero" style="padding:2.5rem 2rem">
+    <div class="hero-badge">Documents</div>
+    <h1 style="font-size:2rem">Internal <span>Documents</span></h1>
+    <div class="hero-sub">For Department Members</div>
+  </div>
+  <div class="container">
+    <div class="alert"><strong>Members Only</strong>These documents are for active Civilian Department members. Please do not share internal links outside of the community.</div>
+    <div class="doc-list">
+      <a class="doc-item" href="https://docs.google.com/document/d/10Us4bVXUEcwcdREvlyeZcjVu0BiaOJFRJNWjryJHEss/edit" target="_blank"><div class="doc-icon">📘</div><div><div class="doc-title">Standard Operating Procedures (SOP)</div><div class="doc-desc">Full FCRP Civilian SOP — Version 1.6 · Last updated Dec 2025</div></div><span class="doc-arrow">↗</span></a>
+      <a class="doc-item" href="https://docs.google.com/document/d/1dbFGnzJkv0MVrmCVZ-YPspJUkdZga5vA47NLvUNyXkM/edit" target="_blank"><div class="doc-icon">🎯</div><div><div class="doc-title">Contact Level / Tier Sheet</div><div class="doc-desc">Promotion guidelines, contact levels, and approved scenarios</div></div><span class="doc-arrow">↗</span></a>
+      <a class="doc-item" href="https://docs.google.com/document/d/1o8f9o3Fn4IGqWVNx4-rfplzoIfDPkL9E95T4FRvH5I0/edit" target="_blank"><div class="doc-icon">📈</div><div><div class="doc-title">Activity Requirements &amp; Promotion Guidelines</div><div class="doc-desc">Hours, cycles, and criteria for promotions</div></div><span class="doc-arrow">↗</span></a>
+      <a class="doc-item" href="https://docs.google.com/spreadsheets/d/1OFMeUA8VkjN-s9VP_YgIlvin4n4IaUnCsa-zDuCSxtU/edit" target="_blank"><div class="doc-icon">👥</div><div><div class="doc-title">Member Roster</div><div class="doc-desc">Full department roster with callsigns and ranks</div></div><span class="doc-arrow">↗</span></a>
+      <a class="doc-item" href="https://docs.google.com/document/d/1hIhPpuywOS_8t5Yl4dx8xcddnbOwj0vAzkmcq8S2TQM/edit" target="_blank"><div class="doc-icon">📋</div><div><div class="doc-title">Supplemental Department Document</div><div class="doc-desc">Additional department guidelines and information</div></div><span class="doc-arrow">↗</span></a>
+    </div>
+  </div>
+</div>
+
+<!-- DOCS PUBLIC -->
+<div id="page-docs-public" class="page">
+  <div class="hero" style="padding:2.5rem 2rem">
+    <div class="hero-badge">Documents</div>
+    <h1 style="font-size:2rem">Public <span>Documents</span></h1>
+    <div class="hero-sub">Accessible to All</div>
+  </div>
+  <div class="container">
+    <div class="doc-list">
+      <a class="doc-item" href="https://docs.google.com/spreadsheets/d/1Z8-HXq9qJ2Qfhs8XAcLgEpN6CdNlA7eJsgaAvJ8Dw9M/edit" target="_blank"><div class="doc-icon">🚗</div><div><div class="doc-title">Vehicle &amp; Weapon Structure</div><div class="doc-desc">Approved vehicles and weapons by rank</div></div><span class="doc-arrow">↗</span></a>
+      <a class="doc-item" href="https://docs.google.com/document/d/1qA_-id_7QNqHV5oMZJPUI9RJl499bGqqsmnozFu0mrg/edit" target="_blank"><div class="doc-icon">🏢</div><div><div class="doc-title">Business &amp; Organization Perks / Tebex</div><div class="doc-desc">Perks available to approved businesses and organizations</div></div><span class="doc-arrow">↗</span></a>
+      <a class="doc-item" href="https://docs.google.com/document/d/1TlGdD_22GGX4HBGhPRmpz1wgqS4wn1RWe2XCweJym78/edit" target="_blank"><div class="doc-icon">⚖️</div><div><div class="doc-title">Judicial Services SOP</div><div class="doc-desc">Court RP, legal guidelines, lawyer and judge roles</div></div><span class="doc-arrow">↗</span></a>
+      <a class="doc-item" href="https://forms.gle/VcrGbsS7xnLenSTSA" target="_blank"><div class="doc-icon">🚨</div><div><div class="doc-title">Civilian Complaint Form</div><div class="doc-desc">Report SOP or rules violations to the Civilian CoC</div></div><span class="doc-arrow">↗</span></a>
+      <a class="doc-item" href="https://docs.google.com/forms/d/e/1FAIpQLScdyBZ8TEzdht660sM4lAEhG9l4dWnpztpLlVEq-5hvgkmKmg/viewform" target="_blank"><div class="doc-icon">📝</div><div><div class="doc-title">Civilian Application Form</div><div class="doc-desc">Apply to join the Civilian Department</div></div><span class="doc-arrow">↗</span></a>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT LEVELS -->
+<div id="page-contact-levels" class="page">
+  <div class="hero" style="padding:2.5rem 2rem">
+    <div class="hero-badge">Scenarios &amp; Priorities</div>
+    <h1 style="font-size:2rem">Contact <span>Levels</span></h1>
+    <div class="hero-sub">Approved Roleplay by Rank</div>
+  </div>
+  <div class="container">
+    <div class="alert"><strong>Priority Rules</strong>Must be in-server 45 min before initiating. Announce in TeamSpeak RTO first. Cooldown: 20 min after a priority. If you participated in someone else's priority, wait 2 hours before initiating your own. Probationary Civilians may NOT initiate or participate in priorities.</div>
+    <div class="tier-bar" id="tierBar">
+      <div class="tier-seg active" onclick="showTier(1)"><div class="ts-num">L1</div><div class="ts-label">Probationary</div></div>
+      <div class="tier-seg" onclick="showTier(2)"><div class="ts-num">L2</div><div class="ts-label">Civilian</div></div>
+      <div class="tier-seg" onclick="showTier(3)"><div class="ts-num">L3</div><div class="ts-label">Senior</div></div>
+      <div class="tier-seg" onclick="showTier(4)"><div class="ts-num">L4</div><div class="ts-label">Advisor+</div></div>
+    </div>
+    <div class="tier-panel active" id="tier-1">
+      <div class="tier-header"><div class="tier-badge">L1</div><div><div class="tier-info-title">Level One Contact</div><div class="tier-info-sub">Probationary Civilian · Probationary Civilian Reserve</div></div></div>
+      <div style="background:var(--white);border:1px solid var(--border);border-top:none;padding:1.25rem;margin-bottom:1.5rem">
+        <div class="tier-danger"><strong>Restrictions</strong> NO priorities · NO foot pursuits (10-70) · NO motorcycle pursuits · Terroristic RP prohibited</div>
+        <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1rem">Passive, low-risk scenarios only. Focus on improving RP skills.</p>
+        <div class="scenario-grid">
+          <div class="scenario-item">Assault on 2 Civilians (melee only, no deaths, no Fire assaults)</div>
+          <div class="scenario-item">Mugging of Civilians <em>Melee only · full consent required</em></div>
+          <div class="scenario-item">Drug Deals / Dealing <em>Small distribution for LE interaction</em></div>
+          <div class="scenario-item">Street Racing <em>May NOT turn into a vehicle pursuit</em></div>
+          <div class="scenario-item">Burglary / Breaking &amp; Entering</div>
+          <div class="scenario-item">Petty Theft from Small Businesses <em>24/7s, LTDs, etc.</em></div>
+          <div class="scenario-item">Vandalism <em>Under $5,000 · No LEO/BSFR vehicles</em></div>
+          <div class="scenario-item">Hunting in the Woods <em>No harm to other players</em></div>
+          <div class="scenario-item">Animal RP (Non-Aggressive)</div>
+          <div class="scenario-item">House Party / Suspicious Disturbances</div>
+          <div class="scenario-item">Suspicious Person / Loitering</div>
+          <div class="scenario-item">Racketeering / Fraudulent Business</div>
+          <div class="scenario-item">Barricade Scenario <em>As victim only, not suspect</em></div>
+          <div class="scenario-item">Medical Related Calls</div>
+          <div class="scenario-item">Self Defense <em>Melee only · injured party cannot die</em></div>
+        </div>
+      </div>
+    </div>
+    <div class="tier-panel" id="tier-2">
+      <div class="tier-header"><div class="tier-badge">L2</div><div><div class="tier-info-title">Level Two Contact</div><div class="tier-info-sub">Civilian · Civilian Reserve</div></div></div>
+      <div style="background:var(--white);border:1px solid var(--border);border-top:none;padding:1.25rem;margin-bottom:1.5rem">
+        <div class="tier-warning"><strong>Note</strong> Low-level priorities allowed. Motorcycle pursuits: participate only, cannot initiate. Terroristic RP prohibited.</div>
+        <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1rem">Includes all Level 1 scenarios plus:</p>
+        <div class="scenario-grid">
+          <div class="scenario-item">Assault — 4 Civilians / 2 LEO <em>Assault on LEO = PRIORITY · No Fire assaults</em></div>
+          <div class="scenario-item">Foot Pursuit <em>Not a priority on its own, but may escalate</em></div>
+          <div class="scenario-item">Vehicle Pursuit (10-31) <em>No weapons use during pursuit</em></div>
+          <div class="scenario-item">Motorcycle Pursuit <em>Participate only · No initiation · Under 160 MPH</em></div>
+          <div class="scenario-item">Drug Trafficking <em>Large amounts for LE interaction</em></div>
+          <div class="scenario-item">Bank / Corporate Robbery <em>Must involve negotiations, planned ahead</em></div>
+          <div class="scenario-item">Vandalism (No limit) <em>Keep realistic</em></div>
+          <div class="scenario-item">Hunting (Player vs Player) <em>Full consent required</em></div>
+          <div class="scenario-item">Facility Breakouts <em>Mental health facilities, hospitals</em></div>
+          <div class="scenario-item">Illegal Commercial Vehicle</div>
+          <div class="scenario-item">Barricade — injured party may die</div>
+          <div class="scenario-item">Self Defense <em>Firearms permitted per weapons structure</em></div>
+        </div>
+      </div>
+    </div>
+    <div class="tier-panel" id="tier-3">
+      <div class="tier-header"><div class="tier-badge">L3</div><div><div class="tier-info-title">Level Three Contact</div><div class="tier-info-sub">Senior Civilian · Senior Civilian Reserve</div></div></div>
+      <div style="background:var(--white);border:1px solid var(--border);border-top:none;padding:1.25rem;margin-bottom:1.5rem">
+        <div class="tier-warning"><strong>Note</strong> Motorcycle pursuit initiation allowed with limitations. Terroristic RP prohibited.</div>
+        <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1rem">Includes all previous levels plus:</p>
+        <div class="scenario-grid">
+          <div class="scenario-item">Assault — 6 Civilians / 4 LEO <em>On LEO = PRIORITY · No Fire assaults</em></div>
+          <div class="scenario-item">Homicide &amp; Shootouts — 6 Civ / 4 LEO <em>Negotiations allowed</em></div>
+          <div class="scenario-item">Kidnapping — 2 Civilians / 1 LEO <em>Must have backstory</em></div>
+          <div class="scenario-item">Prison Break <em>Staff Approval required · Bolingbroke only</em></div>
+          <div class="scenario-item">Armed Bank Robbery <em>Senior Staff Approval required</em></div>
+          <div class="scenario-item">Hazmat Situation <em>No terroristic RP</em></div>
+          <div class="scenario-item">Bomb Scenario <em>Participation only when directed by Admin</em></div>
+          <div class="scenario-item">Vehicle Theft <em>No LEO vehicles</em></div>
+          <div class="scenario-item">Citizen Arrest <em>LEO must be called immediately</em></div>
+          <div class="scenario-item">Firefighter Mayday <em>4+ active firefighters on patrol</em></div>
+          <div class="scenario-item">Aggressive Animal RP <em>Full consent required</em></div>
+          <div class="scenario-item">Motorcycle Pursuit <em>Valid backstory · Under 160 MPH</em></div>
+        </div>
+      </div>
+    </div>
+    <div class="tier-panel" id="tier-4">
+      <div class="tier-header"><div class="tier-badge">L4</div><div><div class="tier-info-title">Level Four Contact</div><div class="tier-info-sub">Civilian Advisor In-Training through Administration</div></div></div>
+      <div style="background:var(--white);border:1px solid var(--border);border-top:none;padding:1.25rem;margin-bottom:1.5rem">
+        <div class="tier-warning"><strong>Note</strong> Large-scale scenarios. Motorcycle pursuits fully allowed. Terroristic RP still prohibited.</div>
+        <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1rem">Includes all previous levels plus:</p>
+        <div class="scenario-grid">
+          <div class="scenario-item">Mass Shootings — 9 Civ / 7 LEO <em>Administration: 10+ civilians</em></div>
+          <div class="scenario-item">Sniper Situation <em>Must be planned ahead of time</em></div>
+          <div class="scenario-item">Bomb Scenarios w/ Explosives <em>Administration only · No bomb vests</em></div>
+          <div class="scenario-item">Return Fire on LEO Aircraft <em>Administration only · LEO shoots first</em></div>
+          <div class="scenario-item">Fort Zancudo Entry</div>
+          <div class="scenario-item">Bullet Vehicle Usage</div>
+          <div class="scenario-item">Assault on Fire Personnel</div>
+          <div class="scenario-item">Birthday Structure <em>Contact Asst. Director+ for verification</em></div>
+        </div>
+      </div>
+    </div>
+    <a class="btn-sm btn-navy" href="https://docs.google.com/document/d/1dbFGnzJkv0MVrmCVZ-YPspJUkdZga5vA47NLvUNyXkM/edit" target="_blank">📄 Full Tier Sheet →</a>
+  </div>
+</div>
+
+<!-- JUDICIAL -->
+<div id="page-judicial" class="page">
+  <div class="hero" style="padding:2.5rem 2rem">
+    <div class="hero-badge">Sub-Department</div>
+    <h1 style="font-size:2rem">Judicial <span>Services</span></h1>
+    <div class="hero-sub">Legal Roleplay Division</div>
+  </div>
+  <div class="container">
+    <div class="card card-accent" style="margin-bottom:1.5rem">
+      <h3>About Judicial Services</h3>
+      <p>The Florida Judicial Services is a sub-department within the FCRP Civilian Department focusing on legal professional RP — <strong>lawyers, judges, court clerks, and bailiffs</strong>. Responsible for all legal RP including court cases, plea bargains, and legal investigations. Works closely with Law Enforcement for realistic and fair outcomes.</p>
+    </div>
+    <a class="btn-sm btn-navy" href="https://docs.google.com/document/d/1TlGdD_22GGX4HBGhPRmpz1wgqS4wn1RWe2XCweJym78/edit" target="_blank">📄 Judicial Services SOP →</a>
+    <a class="btn-sm" style="margin-left:0.5rem" href="https://discord.gg/pT7yawuZvk" target="_blank">💬 Contact via Discord →</a>
+  </div>
+</div>
+
+<!-- BUSINESSES -->
+<div id="page-businesses" class="page">
+  <div class="hero" style="padding:2.5rem 2rem">
+    <div class="hero-badge">Sub-Department</div>
+    <h1 style="font-size:2rem">Businesses &amp; <span>Organizations</span></h1>
+    <div class="hero-sub">Player-Run Enterprises</div>
+  </div>
+  <div class="container">
+    <div class="card card-accent" style="margin-bottom:1.5rem">
+      <h3>About Businesses &amp; Organizations</h3>
+      <p>Any Civilian I+ member may propose a business or organization. If approved, the civilian must develop a <strong>Roster, SOP, and Business Plan</strong>. Active engagement is required to maintain approval and access perks.</p>
+    </div>
+    <div class="two-col">
+      <div class="card"><h3>Requirements to Propose</h3><div style="font-size:0.85rem;color:var(--muted)"><p>• Must be Civilian I or higher</p><p style="margin-top:0.35rem">• Submit proposal to Civilian CoC</p><p style="margin-top:0.35rem">• Provide: Roster, SOP, and Business Plan</p><p style="margin-top:0.35rem">• Must remain actively engaged once approved</p></div></div>
+      <div class="card"><h3>Business Perks</h3><div style="font-size:0.85rem;color:var(--muted)"><p>Active businesses unlock special server perks and Tebex rewards. See the Business Perks document for the full list of available benefits.</p></div></div>
+    </div>
+    <a class="btn-sm btn-navy" href="https://docs.google.com/document/d/1qA_-id_7QNqHV5oMZJPUI9RJl499bGqqsmnozFu0mrg/edit" target="_blank">🏢 Business Perks &amp; Tebex →</a>
+  </div>
+</div>
+
+<!-- CONDUCT -->
+<div id="page-conduct" class="page">
+  <div class="hero" style="padding:2.5rem 2rem">
+    <div class="hero-badge">Rules &amp; Regulations</div>
+    <h1 style="font-size:2rem">Civilian <span>Conduct</span></h1>
+    <div class="hero-sub">In-Game &amp; Out-of-Game Standards</div>
+  </div>
+  <div class="container">
+    <div class="info-box"><strong>Callsign Policy</strong>All members must display their callsign on all platforms at all times: <strong>First L. Civ-###</strong></div>
+    <div class="section-label">In-Game Rules</div>
+    <div class="section-title">Prohibited Conduct</div>
+    <div class="section-rule"></div>
+    <div class="rule-list">
+      <div class="rule-row"><span class="rule-tag">FailRP</span><div class="rule-body"><p>Unrealistic actions or breaking immersion — refusing injury RP, pulling weapons from nowhere, using overpowered abilities, or metagaming.</p></div></div>
+      <div class="rule-row"><span class="rule-tag">ForceRP</span><div class="rule-body"><p>Forcing another player to roleplay a certain action without their consent. All RP must respect player autonomy.</p></div></div>
+      <div class="rule-row"><span class="rule-tag">Metagaming</span><div class="rule-body"><p>Using out-of-character knowledge to influence in-character decisions. All RP communication must remain in-game.</p></div></div>
+      <div class="rule-row"><span class="rule-tag">Combat Logging</span><div class="rule-body"><p>Intentionally leaving the server to avoid RP outcomes such as arrest, jail, or medical treatment. Strictly prohibited.</p></div></div>
+      <div class="rule-row"><span class="rule-tag">Cop Baiting</span><div class="rule-body"><p>Intentionally provoking a law enforcement response — repeatedly speeding past officers or engaging in disruptive behavior to get their attention.</p></div></div>
+      <div class="rule-row"><span class="rule-tag">Leeching</span><div class="rule-body"><p>Drawing attention away from an ongoing RP scene or LEO operation. Only allowed with explicit consent of all involved parties.</p></div></div>
+      <div class="rule-row"><span class="rule-tag">VMenu Abuse</span><div class="rule-body"><p>Misusing server features such as teleport or self-healing outside of valid RP. The VMenu must never be abused in any way.</p></div></div>
+      <div class="rule-row"><span class="rule-tag">RDM</span><div class="rule-body"><p>Killing any player without a valid roleplay reason. Interactions with locals are treated the same as interactions with players.</p></div></div>
+    </div>
+    <div class="alert"><strong>Banned Roleplay Scenarios</strong>Sexual RP or nudity of any nature · Federal government or presidential RP without Admin approval · Any explicit scenarios involving minors</div>
+    <div class="alert"><strong>Suicide &amp; Self-Harm Roleplay</strong>Requires advance approval from Civilian Staff or Head Administration. Must be story-driven, involve appropriate LEO resources, and use proper scripts. No graphic depictions permitted at any time.</div>
+    <div class="section-label" style="margin-top:2rem">Disciplinary Action</div>
+    <div class="section-title">Levels of Discipline</div>
+    <div class="section-rule"></div>
+    <div class="disc-steps">
+      <div class="disc-step"><div class="disc-num">I</div><div><div class="disc-name">Verbal Warning</div><div class="disc-desc">For minor issues not severe enough to warrant a written record.</div></div></div>
+      <div class="disc-step"><div class="disc-num">II</div><div><div class="disc-name">10-90 Report</div><div class="disc-desc">Written report filed for more serious violations requiring a formal record.</div></div></div>
+      <div class="disc-step"><div class="disc-num">III</div><div><div class="disc-name">10-93 Suspension</div><div class="disc-desc">Temporary removal from duty for severe violations.</div></div></div>
+      <div class="disc-step"><div class="disc-num">IV</div><div><div class="disc-name">Re-Training</div><div class="disc-desc">Required when behavior or performance is below standard and additional training is needed.</div></div></div>
+      <div class="disc-step"><div class="disc-num">V</div><div><div class="disc-name">Termination</div><div class="disc-desc">Final resort for unacceptable conduct that cannot be rectified through other means.</div></div></div>
+    </div>
+    <a class="btn btn-primary" href="https://forms.gle/VcrGbsS7xnLenSTSA" target="_blank">🚨 Submit a Complaint →</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">Florida Coast Roleplay · Civilian Operations</div>
+    <div class="footer-text">This directory is maintained by FCRP Civilian Administration. All procedures are enforced at all times.</div>
+    <div class="footer-bar">SOP Version 1.6 &nbsp;·&nbsp; Last Updated December 2025 &nbsp;·&nbsp; Maintained by Mia C. &nbsp;·&nbsp; Property of FCRP Civilian Department — Do Not Copy or Reproduce</div>
+  </div>
+</footer>
+
+<script>
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+function showTier(n) {
+  document.querySelectorAll('.tier-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tier-seg').forEach(s => s.classList.remove('active'));
+  document.getElementById('tier-' + n).classList.add('active');
+  document.querySelectorAll('.tier-seg')[n - 1].classList.add('active');
+}
+</script>
+</body>
+</html>
