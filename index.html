@@ -20,8 +20,28 @@ body{font-family:'Source Serif 4',Georgia,serif;background:var(--bg);color:var(-
 
 nav{background:var(--white);border-bottom:3px solid var(--navy);position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,0.1)}
 .nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:0;padding:0 1.5rem}
-.nav-logo{display:flex;align-items:center;gap:0.75rem;padding:0.7rem 1.5rem 0.7rem 0;border-right:1px solid var(--border);margin-right:0.5rem;cursor:pointer}
-.nav-logo-icon{width:38px;height:38px;background:var(--navy);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold3);font-size:1.1rem;flex-shrink:0}
+.nav-logo{display:flex;align-items:center;gap:0.75rem;padding:0.7rem 1.5rem 0.7rem 0;border-right:1px solid var(--border);margin-right:0.5rem;cursor:pointer;text-decoration:none}
+
+/* ── LOGO IMAGE ── */
+/* To use your own PNG: upload logo.png to your GitHub repo root,
+   then this img tag will display it automatically.
+   Recommended size: 38x38px or square. */
+.nav-logo-img{
+  width:38px;
+  height:38px;
+  object-fit:contain;
+  flex-shrink:0;
+  border-radius:50%;
+}
+/* Fallback icon shown if image fails to load */
+.nav-logo-fallback{
+  width:38px;height:38px;background:var(--navy);border-radius:50%;
+  display:none;align-items:center;justify-content:center;
+  color:var(--gold3);font-size:1.1rem;flex-shrink:0;
+}
+.nav-logo-img.errored{display:none}
+.nav-logo-img.errored + .nav-logo-fallback{display:flex}
+
 .nav-logo-text{font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;line-height:1.2;color:var(--navy);letter-spacing:0.05em}
 .nav-logo-text span{display:block;font-size:0.65rem;font-weight:500;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase}
 .nav-links{display:flex;align-items:center;gap:0}
@@ -38,7 +58,29 @@ nav{background:var(--white);border-bottom:3px solid var(--navy);position:sticky;
 .hero::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(255,255,255,0.03) 40px),repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(255,255,255,0.03) 40px)}
 .hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--gold) 0%,var(--gold3) 50%,var(--gold) 100%)}
 .hero-badge{font-family:'Rajdhani',sans-serif;font-size:0.7rem;font-weight:600;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold3);margin-bottom:1rem;opacity:0.9}
-.hero-seal{width:80px;height:80px;background:radial-gradient(circle,rgba(255,255,255,0.08),transparent);border:2px solid rgba(212,160,23,0.5);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:2rem;color:var(--gold3);margin-bottom:1.25rem;box-shadow:0 0 40px rgba(212,160,23,0.2)}
+
+/* ── HERO LOGO IMAGE ── */
+/* Same logo.png is used in the hero banner, larger size */
+.hero-logo-img{
+  width:90px;height:90px;
+  object-fit:contain;
+  border-radius:50%;
+  margin-bottom:1.25rem;
+  border:2px solid rgba(212,160,23,0.5);
+  box-shadow:0 0 40px rgba(212,160,23,0.2);
+  display:inline-block;
+}
+.hero-logo-fallback{
+  width:80px;height:80px;
+  background:radial-gradient(circle,rgba(255,255,255,0.08),transparent);
+  border:2px solid rgba(212,160,23,0.5);border-radius:50%;
+  display:none;align-items:center;justify-content:center;
+  font-size:2rem;color:var(--gold3);margin-bottom:1.25rem;
+  box-shadow:0 0 40px rgba(212,160,23,0.2);
+}
+.hero-logo-img.errored{display:none}
+.hero-logo-img.errored + .hero-logo-fallback{display:inline-flex}
+
 .hero h1{font-family:'Rajdhani',sans-serif;font-size:clamp(2rem,5vw,3.2rem);font-weight:700;color:#fff;letter-spacing:0.08em;text-transform:uppercase;line-height:1;margin-bottom:0.4rem}
 .hero h1 span{color:var(--gold3)}
 .hero-sub{font-family:'Source Serif 4',serif;font-style:italic;font-size:1rem;color:rgba(255,255,255,0.65);letter-spacing:0.05em}
@@ -172,8 +214,19 @@ footer{background:var(--navy);color:#aabbcc;padding:1.5rem 2rem;text-align:cente
 
 <nav>
   <div class="nav-inner">
+    <!-- ══════════════════════════════════════════
+         LOGO — upload your PNG to GitHub as "logo.png"
+         and it will appear here automatically.
+         Recommended: square PNG, at least 76x76px.
+         ══════════════════════════════════════════ -->
     <div class="nav-logo" onclick="showPage('home')">
-      <div class="nav-logo-icon">✦</div>
+      <img
+        src="logo.png"
+        alt="FCRP Civilian Logo"
+        class="nav-logo-img"
+        onerror="this.classList.add('errored')"
+      />
+      <span class="nav-logo-fallback">✦</span>
       <div class="nav-logo-text">FCRP Civilian<span>Operations Directory</span></div>
     </div>
     <div class="nav-links">
@@ -211,7 +264,17 @@ footer{background:var(--navy);color:#aabbcc;padding:1.5rem 2rem;text-align:cente
 <div id="page-home" class="page active">
   <div class="hero">
     <div class="hero-badge">Florida Coast Roleplay</div>
-    <div class="hero-seal">✦</div>
+    <!-- ══════════════════════════════════════════
+         HERO LOGO — same logo.png, displayed larger
+         in the hero banner on the home page.
+         ══════════════════════════════════════════ -->
+    <img
+      src="logo.png"
+      alt="FCRP Civilian Logo"
+      class="hero-logo-img"
+      onerror="this.classList.add('errored')"
+    />
+    <span class="hero-logo-fallback">✦</span>
     <h1>Civilian <span>Operations</span></h1>
     <div class="hero-sub">Realism · Innovation · Respect · Creativity</div>
     <p class="home-hero-desc">The official directory for the FCRP Civilian Department. Your hub for SOPs, contact levels, staff listings, and all department resources.</p>
@@ -237,20 +300,11 @@ footer{background:var(--navy);color:#aabbcc;padding:1.5rem 2rem;text-align:cente
     <div class="section-title">Recent News</div>
     <div class="section-rule"></div>
     <div class="news-grid">
-      <div class="news-card">
-        <div class="news-card-header">SOP Update · Dec 2025</div>
-        <div class="news-card-body">SOP Version 1.6 has been released. All members are required to review the updated procedures. Contact CoC with any questions.</div>
-      </div>
-      <div class="news-card">
-        <div class="news-card-header">Callsign Policy Reminder</div>
-        <div class="news-card-body">All members must display their callsign on all platforms at all times: <strong>First L. Civ-###</strong></div>
-      </div>
-      <div class="news-card">
-        <div class="news-card-header">Leadership Update</div>
-        <div class="news-card-body">Mia C. serves as Civilian Director. The Deputy Director position is currently vacant. Reach out via Discord for CoC inquiries.</div>
-      </div>
+      <div class="news-card"><div class="news-card-header">SOP Update · Dec 2025</div><div class="news-card-body">SOP Version 1.6 has been released. All members are required to review the updated procedures. Contact CoC with any questions.</div></div>
+      <div class="news-card"><div class="news-card-header">Callsign Policy Reminder</div><div class="news-card-body">All members must display their callsign on all platforms at all times: <strong>First L. Civ-###</strong></div></div>
+      <div class="news-card"><div class="news-card-header">Leadership Update</div><div class="news-card-body">Mia C. serves as Civilian Director. The Deputy Director position is currently vacant. Reach out via Discord for CoC inquiries.</div></div>
     </div>
-    <div class="info-box"><strong>Complaint & Information Requests</strong>Members of the public may submit complaint reports using the Civilian Complaint Form linked below.</div>
+    <div class="info-box"><strong>Complaint &amp; Information Requests</strong>Members of the public may submit complaint reports using the Civilian Complaint Form linked below.</div>
     <a class="btn-sm btn-navy" href="https://forms.gle/VcrGbsS7xnLenSTSA" target="_blank">🚨 Submit a Complaint →</a>
   </div>
 </div>
@@ -272,19 +326,8 @@ footer{background:var(--navy);color:#aabbcc;padding:1.5rem 2rem;text-align:cente
       <p style="font-size:0.85rem;color:var(--gold);font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:0.1em;text-transform:uppercase">— Mia C. &nbsp;·&nbsp; Civilian Director &nbsp;·&nbsp; Civ-01</p>
     </div>
     <div class="two-col">
-      <div class="card card-navy">
-        <h3>Mission Statement</h3>
-        <p>To provide high-quality, realistic, and enjoyable civilian roleplay experiences for all emergency services personnel and civilians — fostering a welcoming, professional, and fun environment for all members of Florida Coast Roleplay.</p>
-      </div>
-      <div class="card card-accent">
-        <h3>Core Values</h3>
-        <div style="display:flex;flex-direction:column;gap:0.6rem;margin-top:0.5rem">
-          <div style="font-size:0.85rem"><strong style="font-family:'Rajdhani',sans-serif;color:var(--navy);letter-spacing:0.05em">REALISM</strong> <span style="color:var(--muted)">— Most realistic RP experiences possible.</span></div>
-          <div style="font-size:0.85rem"><strong style="font-family:'Rajdhani',sans-serif;color:var(--navy);letter-spacing:0.05em">INNOVATION</strong> <span style="color:var(--muted)">— Always improving daily operations.</span></div>
-          <div style="font-size:0.85rem"><strong style="font-family:'Rajdhani',sans-serif;color:var(--navy);letter-spacing:0.05em">RESPECT</strong> <span style="color:var(--muted)">— Toward peers and the chain of command.</span></div>
-          <div style="font-size:0.85rem"><strong style="font-family:'Rajdhani',sans-serif;color:var(--navy);letter-spacing:0.05em">CREATIVITY</strong> <span style="color:var(--muted)">— Open minds and diverse approaches welcome.</span></div>
-        </div>
-      </div>
+      <div class="card card-navy"><h3>Mission Statement</h3><p>To provide high-quality, realistic, and enjoyable civilian roleplay experiences for all emergency services personnel and civilians — fostering a welcoming, professional, and fun environment for all members of Florida Coast Roleplay.</p></div>
+      <div class="card card-accent"><h3>Core Values</h3><div style="display:flex;flex-direction:column;gap:0.6rem;margin-top:0.5rem"><div style="font-size:0.85rem"><strong style="font-family:'Rajdhani',sans-serif;color:var(--navy);letter-spacing:0.05em">REALISM</strong> <span style="color:var(--muted)">— Most realistic RP experiences possible.</span></div><div style="font-size:0.85rem"><strong style="font-family:'Rajdhani',sans-serif;color:var(--navy);letter-spacing:0.05em">INNOVATION</strong> <span style="color:var(--muted)">— Always improving daily operations.</span></div><div style="font-size:0.85rem"><strong style="font-family:'Rajdhani',sans-serif;color:var(--navy);letter-spacing:0.05em">RESPECT</strong> <span style="color:var(--muted)">— Toward peers and the chain of command.</span></div><div style="font-size:0.85rem"><strong style="font-family:'Rajdhani',sans-serif;color:var(--navy);letter-spacing:0.05em">CREATIVITY</strong> <span style="color:var(--muted)">— Open minds and diverse approaches welcome.</span></div></div></div>
     </div>
   </div>
 </div>
@@ -339,10 +382,13 @@ footer{background:var(--navy);color:#aabbcc;padding:1.5rem 2rem;text-align:cente
     <div class="steps-list">
       <div class="step-item"><div class="step-num">1</div><div><div class="step-title">Complete the Examination</div><div class="step-desc">Go to <strong>#examination-submissions</strong> in the Civilian Discord. Check the pinned message and open the official FCRP Examination form. The exam is open-book. Submit and wait to be contacted about your results.</div></div></div>
       <div class="step-item"><div class="step-num">2</div><div><div class="step-title">Complete CAD &amp; TeamSpeak Setup</div><div class="step-desc">Go to <strong>#cad-setup-submissions</strong>. Read the pinned message, complete all steps (TeamSpeak first), then submit the form. Wait to be contacted by the Civilian Staff Team.</div></div></div>
-      <div class="step-item"><div class="step-num">3</div><div><div class="step-title">Begin Patrolling as Probationary Civilian</div><div class="step-desc">Once onboarded you start as a Probationary Civilian with Level 1 Contact. Log all patrols within 48 hours. Full-time: 10 hrs/cycle. Reserve: 2 hrs/cycle.</div></div></div>
+      <div class="step-item"><div class="step-num">3</div><div><div class="step-title">Begin Patrolling as Probationary Civilian</div><div class="step-desc">Once onboarded you start as a Probationary Civilian with Level 1 Contact. Log all patrols within 48 hours. Full-time: 8 hrs/cycle. Reserve: 2 hrs/cycle.</div></div></div>
       <div class="step-item"><div class="step-num">4</div><div><div class="step-title">Work Towards Promotion</div><div class="step-desc">Promotions are based on activity, performance, and professionalism. Senior Civilians may apply for the Chain of Command. Review the Activity &amp; Promotion Guidelines for full criteria.</div></div></div>
     </div>
-    <div class="info-box"><strong>Transfer Policy</strong>Full-time civilians are eligible for transfer after 7 days and 10 hours logged in-server, with good standing with CoC. Returning members do not bypass this requirement.
+    <div class="info-box"><strong>Transfer Policy</strong>Full-time civilians are eligible for transfer after 7 days and 10 hours logged in-server, with good standing with CoC. Returning members do not bypass this requirement.</div>
+    <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-bottom:2rem">
+      <a class="btn btn-primary" href="https://floridacoastrp.com/forms/dashboard" target="_blank">📝 Apply Now →</a>
+      <a class="btn-sm" href="https://docs.google.com/document/d/1o8f9o3Fn4IGqWVNx4-rfplzoIfDPkL9E95T4FRvH5I0/edit" target="_blank">📈 Activity &amp; Promo Guidelines →</a>
     </div>
     <div class="section-rule wide"></div>
     <div class="section-label">Activity Requirements</div>
@@ -372,9 +418,9 @@ footer{background:var(--navy);color:#aabbcc;padding:1.5rem 2rem;text-align:cente
       <a class="doc-item" href="https://docs.google.com/document/d/1dbFGnzJkv0MVrmCVZ-YPspJUkdZga5vA47NLvUNyXkM/edit" target="_blank"><div class="doc-icon">🎯</div><div><div class="doc-title">Contact Level / Tier Sheet</div><div class="doc-desc">Promotion guidelines, contact levels, and approved scenarios</div></div><span class="doc-arrow">↗</span></a>
       <a class="doc-item" href="https://docs.google.com/document/d/1o8f9o3Fn4IGqWVNx4-rfplzoIfDPkL9E95T4FRvH5I0/edit" target="_blank"><div class="doc-icon">📈</div><div><div class="doc-title">Activity Requirements &amp; Promotion Guidelines</div><div class="doc-desc">Hours, cycles, and criteria for promotions</div></div><span class="doc-arrow">↗</span></a>
       <a class="doc-item" href="https://docs.google.com/spreadsheets/d/1lsLeuQUoBSHEaYEIYfvcVjA6vg8YRlQf1zbXJglVFGU/edit?usp=sharing" target="_blank"><div class="doc-icon">👥</div><div><div class="doc-title">Member Roster</div><div class="doc-desc">Full department roster with callsigns and ranks</div></div><span class="doc-arrow">↗</span></a>
-      <a class="doc-item" href="https://docs.google.com/document/d/1qA_-id_7QNqHV5oMZJPUI9RJl499bGqqsmnozFu0mrg/edit?tab=t.0" target="_blank"><div class="doc-icon">👥</div><div><div class="doc-title">Civilian of the Month Program</div><div class="doc-desc">Information pertaining to the Civilian of the Month Program</div></div><span class="doc-arrow">↗</span></a>
+      <a class="doc-item" href="https://docs.google.com/document/d/1qA_-id_7QNqHV5oMZJPUI9RJl499bGqqsmnozFu0mrg/edit?tab=t.0" target="_blank"><div class="doc-icon">🏆</div><div><div class="doc-title">Civilian of the Month Program</div><div class="doc-desc">Information pertaining to the Civilian of the Month Program</div></div><span class="doc-arrow">↗</span></a>
       <a class="doc-item" href="https://docs.google.com/document/d/1TlGdD_22GGX4HBGhPRmpz1wgqS4wn1RWe2XCweJym78/edit?tab=t.0" target="_blank"><div class="doc-icon">⚕️</div><div><div class="doc-title">Enhanced Medical Guide</div><div class="doc-desc">Enhanced Medical Guide</div></div><span class="doc-arrow">↗</span></a>
-      <a class="doc-item" href="https://docs.google.com/document/d/1hIhPpuywOS_8t5Yl4dx8xcddnbOwj0vAzkmcq8S2TQM/edit?usp=sharing" target="_blank"><div class="doc-icon">⚕️</div><div><div class="doc-title">DUI Guide</div><div class="doc-desc">Guide for the DUI Menu</div></div><span class="doc-arrow">↗</span></a>
+      <a class="doc-item" href="https://docs.google.com/document/d/1hIhPpuywOS_8t5Yl4dx8xcddnbOwj0vAzkmcq8S2TQM/edit?usp=sharing" target="_blank"><div class="doc-icon">🚗</div><div><div class="doc-title">DUI Guide</div><div class="doc-desc">Guide for the DUI Menu</div></div><span class="doc-arrow">↗</span></a>
     </div>
   </div>
 </div>
@@ -390,7 +436,7 @@ footer{background:var(--navy);color:#aabbcc;padding:1.5rem 2rem;text-align:cente
     <div class="doc-list">
       <a class="doc-item" href="https://docs.google.com/spreadsheets/d/1Z8-HXq9qJ2Qfhs8XAcLgEpN6CdNlA7eJsgaAvJ8Dw9M/edit" target="_blank"><div class="doc-icon">🚗</div><div><div class="doc-title">Vehicle &amp; Weapon Structure</div><div class="doc-desc">Approved vehicles and weapons by rank</div></div><span class="doc-arrow">↗</span></a>
       <a class="doc-item" href="https://forms.gle/VcrGbsS7xnLenSTSA" target="_blank"><div class="doc-icon">🚨</div><div><div class="doc-title">Civilian Complaint Form</div><div class="doc-desc">Report SOP or rules violations to the Civilian CoC</div></div><span class="doc-arrow">↗</span></a>
-      <a class="doc-item" href="https://docs.google.com/forms/d/e/1FAIpQLScdyBZ8TEzdht660sM4lAEhG9l4dWnpztpLlVEq-5hvgkmKmg/viewform" target="_blank"><div class="doc-icon">📝</div><div><div class="doc-title">Civilian Patrol Log Form</div><div class="doc-desc">Apply to join the Civilian Department</div></div><span class="doc-arrow">↗</span></a>
+      <a class="doc-item" href="https://docs.google.com/forms/d/e/1FAIpQLScdyBZ8TEzdht660sM4lAEhG9l4dWnpztpLlVEq-5hvgkmKmg/viewform" target="_blank"><div class="doc-icon">📝</div><div><div class="doc-title">Civilian Patrol Log Form</div><div class="doc-desc">Submit your patrol logs here</div></div><span class="doc-arrow">↗</span></a>
     </div>
   </div>
 </div>
@@ -404,7 +450,7 @@ footer{background:var(--navy);color:#aabbcc;padding:1.5rem 2rem;text-align:cente
   </div>
   <div class="container">
     <div class="alert"><strong>Priority Rules</strong>Must be in-server 45 min before initiating. Announce in TeamSpeak RTO first. Cooldown: 20 min after a priority. If you participated in someone else's priority, wait 2 hours before initiating your own. Probationary Civilians may NOT initiate or participate in priorities.</div>
-    <div class="tier-bar" id="tierBar">
+    <div class="tier-bar">
       <div class="tier-seg active" onclick="showTier(1)"><div class="ts-num">L1</div><div class="ts-label">Probationary</div></div>
       <div class="tier-seg" onclick="showTier(2)"><div class="ts-num">L2</div><div class="ts-label">Civilian</div></div>
       <div class="tier-seg" onclick="showTier(3)"><div class="ts-num">L3</div><div class="ts-label">Senior</div></div>
@@ -509,7 +555,7 @@ footer{background:var(--navy);color:#aabbcc;padding:1.5rem 2rem;text-align:cente
       <h3>About Judicial Services</h3>
       <p>The Florida Judicial Services is a sub-department within the FCRP Civilian Department focusing on legal professional RP — <strong>lawyers, judges, court clerks, and bailiffs</strong>. Responsible for all legal RP including court cases, plea bargains, and legal investigations. Works closely with Law Enforcement for realistic and fair outcomes.</p>
     </div>
-    <a class="btn-sm" style="margin-left:0.5rem" href="https://discord.gg/w33J6DXnpH" target="_blank">💬 Contact via Discord →</a>
+    <a class="btn-sm" href="https://discord.gg/w33J6DXnpH" target="_blank">💬 Contact via Discord →</a>
   </div>
 </div>
 
